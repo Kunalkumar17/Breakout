@@ -49,3 +49,27 @@ function GenerateQuadPaddles(atlas)
 
     return quads
 end 
+
+    function GenerateQuadBalls(atlas)
+        local x = 96
+        local y = 48
+
+        local Counter = 1
+        local quads = {}
+        
+        for i = 0 , 3 do
+            quads[Counter] = love.graphics.newQuad(x , y , 8 , 8 , atlas:getDimensions())
+            x = x + 8
+            Counter = Counter + 1
+        end 
+        
+        x = 96
+        y = 56
+        for i = 0 , 2 do 
+            quads[Counter] = love.graphics.newQuad(x , y , 8, 8, atlas:getDimensions())
+            x = x + 8
+            Counter = Counter + 1
+        end 
+
+        return quads
+    end 

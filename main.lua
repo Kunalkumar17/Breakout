@@ -23,7 +23,9 @@ function love.load()
         ['particle'] = love.graphics.newImage('graphics/particle.png')
     }
     gFrames = {
-        ['paddles'] = GenerateQuadPaddles(gTextures['main'])
+        ['paddles'] = GenerateQuadPaddles(gTextures['main']),
+        ['balls'] = GenerateQuadBalls(gTextures['main']),
+        ['']
     }
 
     gSounds = {

@@ -2,6 +2,13 @@ PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
     self.paddle = Paddle()
+    self.ball = Ball(math.random(7))
+
+    self.ball.dx = math.random(-200, 200)
+    self.ball.dy = math.random(-50, -60)
+
+    self.ball.x = VIRTUAL_WIDTH / 2 - 4
+    self.ball.y = VIRTUAL_HEIGHT / 2 - 42
 end 
 
 function PlayState:update(dt)
@@ -18,7 +25,20 @@ function PlayState:update(dt)
         return
     end 
 
+    self.ball:update(dt)
     self.paddle:update(dt)
+
+    if self.ball:collides(self.paddle) then
+        self.ball.dy = -self.ball.dy
+        gSounds['wall-hit']:play()
+    end 
+
+    if self.ball.y >= VIRTUAL_HEIGHT - 4 then
+        gSounds['wall-hit']:play()
+        self.ball:reset()
+        self.ball.dx = math.random(-200, 200)
+        self.ball.dy = math.random(-50, -60)
+    end
 
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
@@ -27,8 +47,9 @@ end
 
 function PlayState:render()
     self.paddle:render()
+    self.ball:render()
     if self.paused then
         love.graphics.setFont(gFonts['large'])
-        love.graphics.draw('PAUSED', 0 , VIRTUAL_HEIGHT / 2  - 16, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('PAUSED', 0 , VIRTUAL_HEIGHT / 2  - 16, VIRTUAL_WIDTH, 'center')
     end
 end 
