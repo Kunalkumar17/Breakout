@@ -2,6 +2,8 @@ Class = require 'lib/class'
 
 push = require 'lib/push'
 
+require 'src/LevelMaker'
+require 'src/Brick'
 require 'src/Ball'
 require 'src/util'
 require 'src/Constants'

@@ -9,6 +9,8 @@ function PlayState:init()
 
     self.ball.x = VIRTUAL_WIDTH / 2 - 4
     self.ball.y = VIRTUAL_HEIGHT / 2 - 42
+
+    self.bricks = LevelMaker.createMap()
 end 
 
 function PlayState:update(dt)
@@ -33,6 +35,14 @@ function PlayState:update(dt)
         gSounds['wall-hit']:play()
     end 
 
+    for k , brick in pairs(self.bricks) do
+        if brick.inPlay and self.ball:collides(brick) then 
+            self.ball.dy = -self.ball.dy
+            brick:hit()
+        end
+    end 
+
+
     if self.ball.y >= VIRTUAL_HEIGHT - 4 then
         gSounds['wall-hit']:play()
         self.ball:reset()
@@ -46,6 +56,10 @@ function PlayState:update(dt)
 end 
 
 function PlayState:render()
+    for k , brick in pairs(self.bricks) do
+        brick:render()
+    end 
+
     self.paddle:render()
     self.ball:render()
     if self.paused then

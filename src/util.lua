@@ -1,4 +1,4 @@
-function GenaerateQuads(atlas, tileWidth , tileHeight)
+function GenerateQuads(atlas, tileWidth , tileHeight)
     local sheetWidth = atlas:getWidth()
     local sheetHeight = atlas:getHeight()
 
@@ -23,6 +23,10 @@ function table.slice(tbl, first, last, step)
     end
   
     return sliced
+end
+
+function GenerateQuadBricks(atlas)
+    return table.slice(GenerateQuads(atlas, 32, 16), 1, 21)
 end
 
 function GenerateQuadPaddles(atlas)
@@ -50,26 +54,26 @@ function GenerateQuadPaddles(atlas)
     return quads
 end 
 
-    function GenerateQuadBalls(atlas)
-        local x = 96
-        local y = 48
+function GenerateQuadBalls(atlas)
+    local x = 96
+    local y = 48
 
-        local Counter = 1
-        local quads = {}
+    local Counter = 1
+    local quads = {}
         
-        for i = 0 , 3 do
-            quads[Counter] = love.graphics.newQuad(x , y , 8 , 8 , atlas:getDimensions())
-            x = x + 8
-            Counter = Counter + 1
-        end 
-        
-        x = 96
-        y = 56
-        for i = 0 , 2 do 
-            quads[Counter] = love.graphics.newQuad(x , y , 8, 8, atlas:getDimensions())
-            x = x + 8
-            Counter = Counter + 1
-        end 
-
-        return quads
+    for i = 0 , 3 do
+        quads[Counter] = love.graphics.newQuad(x , y , 8 , 8 , atlas:getDimensions())
+        x = x + 8
+        Counter = Counter + 1
     end 
+        
+    x = 96
+    y = 56
+    for i = 0 , 2 do 
+        quads[Counter] = love.graphics.newQuad(x , y , 8, 8, atlas:getDimensions())
+        x = x + 8
+        Counter = Counter + 1
+    end 
+
+    return quads
+end 

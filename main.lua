@@ -25,7 +25,7 @@ function love.load()
     gFrames = {
         ['paddles'] = GenerateQuadPaddles(gTextures['main']),
         ['balls'] = GenerateQuadBalls(gTextures['main']),
-        ['']
+        ['bricks'] = GenerateQuadBricks(gTextures['main'])
     }
 
     gSounds = {
@@ -47,7 +47,7 @@ function love.load()
     }
 
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT , WINDOW_WIDTH , WINDOW_HEIGHT , {
-        fullscreen = true,
+        fullscreen = false,
         vsync = true,
         resizeable = true
     })
