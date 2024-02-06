@@ -21,7 +21,12 @@ function StartState:update()
         end 
     elseif highlighted == 0 then 
         if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-            gStateMachine:change('play')
+            gStateMachine:change('serve' , {
+            paddle = Paddle(1),
+            bricks = LevelMaker.createMap(1),
+            health = 3,
+            score = 0
+        })
         end 
     end           
 end 

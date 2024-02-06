@@ -1,15 +1,23 @@
+push = require 'lib/push'
 Class = require 'lib/class'
 
-push = require 'lib/push'
+require 'src/constants'
+
+require 'src/Ball'
+
+require 'src/Brick'
 
 require 'src/LevelMaker'
-require 'src/Brick'
-require 'src/Ball'
-require 'src/util'
-require 'src/Constants'
-require 'src/StateMachine'
+
 require 'src/Paddle'
 
+require 'src/StateMachine'
+
+require 'src/Util'
+
+
 require 'src/states/BaseState'
-require 'src/states/StartState'
+require 'src/states/GameOverState'
 require 'src/states/PlayState'
+require 'src/states/ServeState'
+require 'src/states/StartState'
