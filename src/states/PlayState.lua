@@ -6,6 +6,7 @@ function PlayState:enter(params)
     self.health = params.health
     self.score = params.score
     self.ball = params.ball
+    self.level = params.level
 
     self.paused = false 
     
@@ -27,6 +28,17 @@ function PlayState:update(dt)
         return
     end 
 
+    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then 
+        gStateMachine:change('victory' , {
+            level = self.level,
+            paddle = self.paddle,
+            bricks = self.bricks,
+            health = self.health,
+            score = self.score,
+            ball = self.ball
+        })
+    end 
+
     self.ball:update(dt)
     self.paddle:update(dt)
 
@@ -46,9 +58,20 @@ function PlayState:update(dt)
     for k , brick in pairs(self.bricks) do
         if brick.inPlay and self.ball:collides(brick) then 
 
-            self.score = self.score + 10
+            self.score = self.score + (brick.tier * 200 + brick.color * 25)
 
             brick:hit()
+
+            if self:checkVictory() then 
+                gStateMachine:change('victory' , {
+                    level = self.level,
+                    paddle = self.paddle,
+                    bricks = self.bricks,
+                    health = self.health,
+                    score = self.score,
+                    ball = self.ball
+                })
+            end 
 
             if self.ball.x + 2 < brick.x and self.ball.dx > 0 then
                 self.ball.dx = -self.ball.dx 
@@ -116,4 +139,14 @@ function PlayState:render()
         love.graphics.setFont(gFonts['large'])
         love.graphics.printf('PAUSED', 0 , VIRTUAL_HEIGHT / 2  - 16, VIRTUAL_WIDTH, 'center')
     end
+end 
+
+function PlayState:checkVictory()
+    for k , brick in pairs(self.bricks) do  
+        if brick.inPlay then
+            return false
+        end 
+    end 
+
+    return true
 end 
