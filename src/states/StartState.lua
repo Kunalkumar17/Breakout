@@ -2,6 +2,10 @@ StartState = Class{__includes = BaseState}
 
 local highlighted = 0
 
+function StartState:enter(params)
+    self.highScores = params.highScores
+end 
+
 function StartState:update()
     if love.keyboard.wasPressed('w') then
         highlighted = highlighted - 1
@@ -17,14 +21,21 @@ function StartState:update()
 
     if highlighted == 2 then
         if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-            love.event.quit()
+            gStateMachine:change('enter')
         end 
     elseif highlighted == 0 then 
         if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
             gStateMachine:change('select')
             gSounds['confirm']:play()
         end 
-    end           
+    elseif highlighted == 1 then    
+        if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+            gStateMachine:change('high-scores' , {
+                highScores = self.highScores
+            })
+            gSounds['confirm']:play()
+        end 
+    end 
 end 
 
 function StartState:render()
@@ -35,7 +46,6 @@ function StartState:render()
     
     if highlighted == 0 then
         love.graphics.setColor(103/255, 1, 1, 1)
-        love.graphics.setFont(gFonts['medium2'])
     end
     
     love.graphics.printf('START', 0 , VIRTUAL_HEIGHT/2 + 50, VIRTUAL_WIDTH , 'center')
@@ -45,7 +55,6 @@ function StartState:render()
 
     if highlighted == 1 then
         love.graphics.setColor(103/255, 1, 1, 1) 
-        love.graphics.setFont(gFonts['medium2'])
     end 
 
     love.graphics.printf('HIGH SCORE', 0 , VIRTUAL_HEIGHT/2 + 70, VIRTUAL_WIDTH , 'center')
@@ -55,7 +64,7 @@ function StartState:render()
 
     if highlighted == 2 then
         love.graphics.setColor(103/255, 1, 1, 1) 
-        love.graphics.setFont(gFonts['medium2'])
+
     end 
 
     love.graphics.printf('EXIT', 0 , VIRTUAL_HEIGHT/2 + 90, VIRTUAL_WIDTH , 'center')

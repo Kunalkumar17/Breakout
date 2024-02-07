@@ -28,17 +28,6 @@ function PlayState:update(dt)
         return
     end 
 
-    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then 
-        gStateMachine:change('victory' , {
-            level = self.level,
-            paddle = self.paddle,
-            bricks = self.bricks,
-            health = self.health,
-            score = self.score,
-            ball = self.ball
-        })
-    end 
-
     self.ball:update(dt)
     self.paddle:update(dt)
 
