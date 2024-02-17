@@ -116,8 +116,8 @@ function loadHighScores()
     if not love.filesystem.getInfo('breakout.lst') then
         local scores = ''
         for i = 10, 1, -1 do
-            scores = scores .. 'CTO\n'
-            scores = scores .. tostring(i * 1000) .. '\n'
+            scores = scores .. '---\n'
+            scores = scores .. tostring(0) .. '\n'
         end
 
         love.filesystem.write('breakout.lst', scores)

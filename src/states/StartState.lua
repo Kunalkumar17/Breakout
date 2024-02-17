@@ -21,11 +21,13 @@ function StartState:update()
 
     if highlighted == 2 then
         if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-            gStateMachine:change('enter')
+            love.event.quit()
         end 
     elseif highlighted == 0 then 
         if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-            gStateMachine:change('select')
+            gStateMachine:change('select' , {
+                highScores = self.highScores
+            })
             gSounds['confirm']:play()
         end 
     elseif highlighted == 1 then    

@@ -2,51 +2,86 @@ EnterHighScoreState = Class{__includes = BaseState}
 
 local highlighted = 1
 
-local  name = {
+local initials = ""
+
+local  char = {
     [1] = 65,
     [2] = 65,
     [3] = 65
 }
 
+function EnterHighScoreState:enter(params)
+    self.score = params.score
+    self.highScores = params.highScores 
+    self.scoreIndex = params.scoreIndex
+end 
+
 function EnterHighScoreState:update(dt)
+    if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then  
+
+    initials = string.char( char[1] ) .. string.char( char[2] ) .. string.char( char[3] )
+
+    for i = 10 , self.scoreIndex , -1 do 
+        self.highScores[i + 1] = {
+            name = self.highScores[i].name,
+            score = self.highScores[i].score
+        }
+    end 
+
+    self.highScores[self.scoreIndex].name = initials
+    self.highScores[self.scoreIndex].score = self.score
+
+    local scoreStr = ''
+
+    for i = 1 , 10 do 
+        scoreStr = scoreStr .. self.highScores[i].name..'\n'
+        scoreStr = scoreStr .. tostring(self.highScores[i].score)..'\n'
+    end 
+
+    love.filesystem.write('breakout.lst' , scoreStr)
+
+    gStateMachine:change('high-scores' , {
+        highScores = self.highScores
+    })
+    end
     if highlighted == 1 then    
         if love.keyboard.wasPressed('w') then
-            name[1] = name[1] + 1
-            if name[1] > 90 then    
-                name[1] = 65
+            char[1] = char[1] + 1
+            if char[1] > 90 then    
+                char[1] = 65
             end 
         elseif love.keyboard.wasPressed('s') then
-            name[1] = name[1] - 1
-            if name[1] < 65 then    
-                name[1] = 90
+            char[1] = char[1] - 1
+            if char[1] < 65 then    
+                char[1] = 90
             end 
         end 
     end 
 
     if highlighted == 2 then
         if love.keyboard.wasPressed('w') then
-            name[2] = name[2] + 1
-            if name[2] > 90 then    
-                name[2] = 65
+            char[2] = char[2] + 1
+            if char[2] > 90 then    
+                char[2] = 65
             end 
         elseif love.keyboard.wasPressed('s') then
-            name[2] = name[2] - 1
-            if name[2] < 65 then    
-                name[2] = 90
+            char[2] = char[2] - 1
+            if char[2] < 65 then    
+                char[2] = 90
             end 
         end 
     end 
 
     if highlighted == 3 then
         if love.keyboard.wasPressed('w') then
-            name[3] = name[3] + 1
-            if name[3] > 90 then    
-                name[3] = 65
+            char[3] = char[3] + 1
+            if char[3] > 90 then    
+                char[3] = 65
             end 
         elseif love.keyboard.wasPressed('s') then
-            name[3] = name[3] - 1
-            if name[3] < 65 then    
-                name[3] = 90
+            char[3] = char[3] - 1
+            if char[3] < 65 then    
+                char[3] = 90
             end 
         end 
     end 
@@ -72,7 +107,7 @@ function EnterHighScoreState:render()
         love.graphics.setColor(103/255, 1, 1, 1) 
     end 
 
-    love.graphics.print(tostring(string.char(name[1])) , 160 , 100)
+    love.graphics.print(tostring(string.char(char[1])) , 160 , 100)
 
     love.graphics.setColor(1, 1, 1, 1)
 
@@ -80,7 +115,7 @@ function EnterHighScoreState:render()
         love.graphics.setColor(103/255, 1, 1, 1) 
     end 
 
-    love.graphics.print(tostring(string.char(name[2])) , 210 , 100)
+    love.graphics.print(tostring(string.char(char[2])) , 210 , 100)
 
     love.graphics.setColor(1, 1, 1, 1)
 
@@ -88,7 +123,7 @@ function EnterHighScoreState:render()
         love.graphics.setColor(103/255, 1, 1, 1) 
     end 
 
-    love.graphics.print(tostring(string.char(name[3])) , 260 , 100)
+    love.graphics.print(tostring(string.char(char[3])) , 260 , 100)
 
     love.graphics.setColor(1, 1, 1, 1)
 

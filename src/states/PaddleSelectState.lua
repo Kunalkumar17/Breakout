@@ -2,6 +2,10 @@ PaddleSelectState = Class{__includes = BaseState}
 
 local x = 6
 
+function PaddleSelectState:enter(params)
+    self.highScores = params.highScores
+end 
+
 function PaddleSelectState:update(dt)
     if love.keyboard.wasPressed('a') then  
         x = x - 4
@@ -24,7 +28,8 @@ function PaddleSelectState:update(dt)
             bricks = LevelMaker.createMap(1),
             health = 3,
             score = 0,
-            level = 1
+            level = 1,
+            highScores = self.highScores
         } )
     end 
 
